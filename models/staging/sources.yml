@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: sap_raw
+    description: Raw SAP ECC-style extracts loaded as dbt seeds (SD module plus customer and material master).
+    tables:
+      - name: vbak
+        description: Sales document header.
+      - name: vbap
+        description: Sales document items.
+      - name: kna1
+        description: Customer master general data.
+      - name: mara
+        description: Material master general data.
