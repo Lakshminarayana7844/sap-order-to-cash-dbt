@@ -1,0 +1,23 @@
+name: sap_order_to_cash
+version: 1.0.0
+config-version: 2
+
+profile: sap_order_to_cash
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+
+clean-targets:
+  - target
+  - dbt_packages
+
+seeds:
+  +quote_columns: false
+
+models:
+  sap_order_to_cash:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
