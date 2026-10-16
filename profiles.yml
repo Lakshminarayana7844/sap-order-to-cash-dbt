@@ -1,0 +1,7 @@
+sap_order_to_cash:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: sap_o2c.duckdb
+      threads: 4
