@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: fct_sales_orders
+    description: One row per sales order with aggregated item values, mirroring an SAP order-to-cash reporting view.
+    columns:
+      - name: sales_order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: gross_net_value
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+  - name: dim_customers
+    description: Customer master enriched with order history and a simple value segment.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: value_segment
+        tests:
+          - accepted_values:
+              values: ['gold', 'silver', 'bronze']
+  - name: fct_daily_revenue
+    description: Daily net revenue per sales org, excluding rejected items.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_date
+            - sales_org
+    columns:
+      - name: net_revenue
+        tests:
+          - not_null
