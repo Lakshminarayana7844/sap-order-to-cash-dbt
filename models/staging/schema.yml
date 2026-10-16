@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: stg_vbak
+    columns:
+      - name: sales_order_id
+        tests:
+          - unique
+          - not_null
+      - name: overall_status
+        tests:
+          - accepted_values:
+              values: ['A', 'B', 'C']
+  - name: stg_vbap
+    columns:
+      - name: sales_order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_vbak')
+              field: sales_order_id
+      - name: net_value
+        tests:
+          - not_null
+  - name: stg_kna1
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_mara
+    columns:
+      - name: material_id
+        tests:
+          - unique
+          - not_null
